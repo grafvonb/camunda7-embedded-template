@@ -1,0 +1,20 @@
+camunda:
+  bpm:
+    job-execution:
+      enabled: true
+    default-number-of-retries: 1
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5439/postgres
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+server:
+  port: 8099
+logging:
+  level:
+    org.dzbank: DEBUG
