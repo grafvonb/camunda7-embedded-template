@@ -5,7 +5,7 @@
       <bpmn:outgoing>Flow_1v0oedg</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="Flow_1v0oedg" sourceRef="NeukundenanlageStartEvent" targetRef="LogTask1" />
-    <bpmn:sequenceFlow id="Flow_06pwuhr" sourceRef="LogTask1" targetRef="KundeAngelegtCatchEvent" />
+    <bpmn:sequenceFlow id="Flow_06pwuhr" sourceRef="LogTask1" targetRef="KundeAngelegtCatchSignal" />
     <bpmn:endEvent id="NeukundenanlageEndEvent">
       <bpmn:incoming>Flow_0f59zew</bpmn:incoming>
     </bpmn:endEvent>
@@ -39,14 +39,15 @@
       <bpmn:incoming>Flow_04eh7cj</bpmn:incoming>
       <bpmn:outgoing>Flow_0f59zew</bpmn:outgoing>
     </bpmn:sendTask>
-    <bpmn:sequenceFlow id="Flow_0a95559" sourceRef="KundeAngelegtCatchEvent" targetRef="CreateCustomerAccountTask" />
-    <bpmn:intermediateCatchEvent id="KundeAngelegtCatchEvent" name="Kunde&#10;angelegt">
+    <bpmn:sequenceFlow id="Flow_0a95559" sourceRef="KundeAngelegtCatchSignal" targetRef="CreateCustomerAccountTask" />
+    <bpmn:intermediateCatchEvent id="KundeAngelegtCatchSignal" name="Kunde&#10;angelegt">
       <bpmn:incoming>Flow_06pwuhr</bpmn:incoming>
       <bpmn:outgoing>Flow_0a95559</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0mys2d5" messageRef="Message_28nt7os" />
+      <bpmn:signalEventDefinition id="SignalEventDefinition_1urt415" signalRef="Signal_0ntthap" />
     </bpmn:intermediateCatchEvent>
   </bpmn:process>
   <bpmn:message id="Message_28nt7os" name="KundeAngelegtMessage" />
+  <bpmn:signal id="Signal_0ntthap" name="KundeAngelegtSignal-${execution.processBusinessKey}" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="CLMdirectKontoanlageProzess">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="NeukundenanlageStartEvent">
@@ -70,7 +71,7 @@
         <dc:Bounds x="640" y="77" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_18x64y2_di" bpmnElement="KundeAngelegtCatchEvent">
+      <bpmndi:BPMNShape id="Event_143ap54_di" bpmnElement="KundeAngelegtCatchSignal">
         <dc:Bounds x="402" y="99" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="401" y="142" width="43" height="27" />

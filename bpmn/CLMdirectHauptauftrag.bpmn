@@ -19,7 +19,7 @@
       </bpmn:callActivity>
       <bpmn:inclusiveGateway id="Gateway_0j79lvn">
         <bpmn:incoming>Flow_0j5oumh</bpmn:incoming>
-        <bpmn:incoming>Flow_0413ijn</bpmn:incoming>
+        <bpmn:incoming>Flow_0jbjar3</bpmn:incoming>
         <bpmn:outgoing>Flow_1f8qxzj</bpmn:outgoing>
       </bpmn:inclusiveGateway>
       <bpmn:callActivity id="Kontoanlageprozess" name="Kontoanlage ausführen" calledElement="CLMdirectKontoanlageProzess">
@@ -45,7 +45,7 @@
             <camunda:in source="kontoName" target="kontoName" />
             <camunda:in source="kontoPayload" target="kontoPayload" />
           </bpmn:extensionElements>
-          <bpmn:incoming>Flow_0ymowyf</bpmn:incoming>
+          <bpmn:incoming>Flow_073peci</bpmn:incoming>
           <bpmn:outgoing>Flow_19zcnos</bpmn:outgoing>
         </bpmn:callActivity>
         <bpmn:endEvent id="Event_0jzmpnl" name="Konto&#10;hinzugefügt">
@@ -56,17 +56,7 @@
           <bpmn:outgoing>Flow_073peci</bpmn:outgoing>
           <bpmn:messageEventDefinition id="MessageEventDefinition_0hyczap" messageRef="Message_088jb18" />
         </bpmn:startEvent>
-        <bpmn:sequenceFlow id="Flow_073peci" sourceRef="ExtraKontoanlageStartEvent" targetRef="Activity_015oi9d" />
-        <bpmn:sequenceFlow id="Flow_0ymowyf" sourceRef="Activity_015oi9d" targetRef="ExtraKontoanlageprozess" />
-        <bpmn:serviceTask id="Activity_015oi9d" name="Payload aktualisieren" camunda:delegateExpression="${payloadAktualisierenHandler}">
-          <bpmn:extensionElements>
-            <camunda:inputOutput>
-              <camunda:inputParameter name="payload">${payload}</camunda:inputParameter>
-            </camunda:inputOutput>
-          </bpmn:extensionElements>
-          <bpmn:incoming>Flow_073peci</bpmn:incoming>
-          <bpmn:outgoing>Flow_0ymowyf</bpmn:outgoing>
-        </bpmn:serviceTask>
+        <bpmn:sequenceFlow id="Flow_073peci" sourceRef="ExtraKontoanlageStartEvent" targetRef="ExtraKontoanlageprozess" />
       </bpmn:subProcess>
       <bpmn:sequenceFlow id="Flow_0igo072" sourceRef="HauptauftragStartEvent" targetRef="Gateway_1l25iya" />
       <bpmn:sequenceFlow id="NeukundenanlageFlow" sourceRef="Gateway_1l25iya" targetRef="NeukundenanlageProzess">
@@ -75,15 +65,9 @@
       <bpmn:sequenceFlow id="KontoanlageFlow" sourceRef="Gateway_1l25iya" targetRef="Kontoanlageprozess">
         <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${payload.kontoPayloads.size()&gt;0}</bpmn:conditionExpression>
       </bpmn:sequenceFlow>
-      <bpmn:sequenceFlow id="Flow_0jbjar3" sourceRef="NeukundenanlageProzess" targetRef="KundeAngelegtThrowMessage" />
+      <bpmn:sequenceFlow id="Flow_0jbjar3" sourceRef="NeukundenanlageProzess" targetRef="Gateway_0j79lvn" />
       <bpmn:sequenceFlow id="Flow_0j5oumh" sourceRef="Kontoanlageprozess" targetRef="Gateway_0j79lvn" />
       <bpmn:sequenceFlow id="Flow_1f8qxzj" sourceRef="Gateway_0j79lvn" targetRef="HauptauftragEndEvent" />
-      <bpmn:sequenceFlow id="Flow_0413ijn" sourceRef="KundeAngelegtThrowMessage" targetRef="Gateway_0j79lvn" />
-      <bpmn:intermediateThrowEvent id="KundeAngelegtThrowMessage" name="Sende">
-        <bpmn:incoming>Flow_0jbjar3</bpmn:incoming>
-        <bpmn:outgoing>Flow_0413ijn</bpmn:outgoing>
-        <bpmn:messageEventDefinition id="MessageEventDefinition_0y0391u" messageRef="Message_35rijvu" camunda:delegateExpression="${kundeAngelegtHandler}" />
-      </bpmn:intermediateThrowEvent>
     </bpmn:subProcess>
     <bpmn:startEvent id="Event_1bn7p9p">
       <bpmn:outgoing>Flow_13zs4zj</bpmn:outgoing>
@@ -96,16 +80,17 @@
   </bpmn:process>
   <bpmn:message id="Message_088jb18" name="ExtraKontoAnlagenMessage" />
   <bpmn:message id="Message_35rijvu" name="KundeAngelegtMessage" />
+  <bpmn:signal id="Signal_3rr5rpk" name="KundeAngelegtSignal-${execution.processBusinessKey}" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="CLMdirectHauptauftrag">
       <bpmndi:BPMNShape id="Event_1bn7p9p_di" bpmnElement="Event_1bn7p9p">
-        <dc:Bounds x="152" y="337" width="36" height="36" />
+        <dc:Bounds x="152" y="322" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_11282xu_di" bpmnElement="Event_11282xu">
-        <dc:Bounds x="972" y="337" width="36" height="36" />
+        <dc:Bounds x="952" y="322" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0q2hljm_di" bpmnElement="Activity_0q2hljm" isExpanded="true">
-        <dc:Bounds x="260" y="80" width="650" height="550" />
+        <dc:Bounds x="260" y="80" width="620" height="520" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_0ceqr7a_di" bpmnElement="Gateway_1l25iya">
         <dc:Bounds x="405" y="245" width="50" height="50" />
@@ -124,54 +109,40 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_0qn71lj_di" bpmnElement="Gateway_0j79lvn">
-        <dc:Bounds x="695" y="245" width="50" height="50" />
+        <dc:Bounds x="665" y="245" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1ep35go_di" bpmnElement="HauptauftragEndEvent">
-        <dc:Bounds x="802" y="252" width="36" height="36" />
+        <dc:Bounds x="762" y="252" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="788" y="295" width="64" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1npkneb_di" bpmnElement="KundeAngelegtThrowMessage">
-        <dc:Bounds x="652" y="145" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="654" y="188" width="32" height="14" />
+          <dc:Bounds x="748" y="295" width="64" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0ug4yey_di" bpmnElement="ExtraKontoanlage" isExpanded="true">
-        <dc:Bounds x="330" y="393" width="508" height="180" />
+        <dc:Bounds x="395" y="380" width="330" height="180" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1gwsfgo_di" bpmnElement="ExtraKontoanlageStartEvent">
-        <dc:Bounds x="362" y="465" width="36" height="36" />
+        <dc:Bounds x="417" y="452" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="354" y="508" width="54" height="27" />
+          <dc:Bounds x="409" y="495" width="54" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0u9u2c1_di" bpmnElement="ExtraKontoanlageprozess">
-        <dc:Bounds x="580" y="443" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0dydeop_di" bpmnElement="Activity_015oi9d">
-        <dc:Bounds x="440" y="443" width="100" height="80" />
+        <dc:Bounds x="505" y="430" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0jzmpnl_di" bpmnElement="Event_0jzmpnl">
-        <dc:Bounds x="752" y="465" width="36" height="36" />
+        <dc:Bounds x="657" y="452" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="743" y="508" width="57" height="27" />
+          <dc:Bounds x="648" y="495" width="57" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_073peci_di" bpmnElement="Flow_073peci">
-        <di:waypoint x="398" y="483" />
-        <di:waypoint x="440" y="483" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0ymowyf_di" bpmnElement="Flow_0ymowyf">
-        <di:waypoint x="540" y="483" />
-        <di:waypoint x="580" y="483" />
+        <di:waypoint x="453" y="470" />
+        <di:waypoint x="505" y="470" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_19zcnos_di" bpmnElement="Flow_19zcnos">
-        <di:waypoint x="680" y="483" />
-        <di:waypoint x="752" y="483" />
+        <di:waypoint x="605" y="470" />
+        <di:waypoint x="657" y="470" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0igo072_di" bpmnElement="Flow_0igo072">
         <di:waypoint x="355" y="270" />
@@ -188,28 +159,24 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0jbjar3_di" bpmnElement="Flow_0jbjar3">
         <di:waypoint x="610" y="163" />
-        <di:waypoint x="652" y="163" />
+        <di:waypoint x="690" y="163" />
+        <di:waypoint x="690" y="245" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0j5oumh_di" bpmnElement="Flow_0j5oumh">
         <di:waypoint x="610" y="270" />
-        <di:waypoint x="695" y="270" />
+        <di:waypoint x="665" y="270" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1f8qxzj_di" bpmnElement="Flow_1f8qxzj">
-        <di:waypoint x="745" y="270" />
-        <di:waypoint x="802" y="270" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0413ijn_di" bpmnElement="Flow_0413ijn">
-        <di:waypoint x="688" y="163" />
-        <di:waypoint x="720" y="163" />
-        <di:waypoint x="720" y="245" />
+        <di:waypoint x="715" y="270" />
+        <di:waypoint x="762" y="270" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_13zs4zj_di" bpmnElement="Flow_13zs4zj">
-        <di:waypoint x="188" y="355" />
-        <di:waypoint x="260" y="355" />
+        <di:waypoint x="188" y="340" />
+        <di:waypoint x="260" y="340" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1cyayzv_di" bpmnElement="Flow_1cyayzv">
-        <di:waypoint x="910" y="355" />
-        <di:waypoint x="972" y="355" />
+        <di:waypoint x="880" y="340" />
+        <di:waypoint x="952" y="340" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
