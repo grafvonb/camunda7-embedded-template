@@ -112,6 +112,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${spring-boot.version}</version>
 				<configuration>
+					<compilerArguments>-parameters</compilerArguments>
 					<layout>ZIP</layout>
 				</configuration>
 				<executions>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0daix0m" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.21.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.20.0">
+  <bpmn:process id="CLMdirectNeukundenanlageProzess" name="CLM.direct Neukundenanlage" isExecutable="true" camunda:historyTimeToLive="10">
+    <bpmn:startEvent id="NeukundenanlageStartEvent">
+      <bpmn:outgoing>Flow_1v0oedg</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1v0oedg" sourceRef="NeukundenanlageStartEvent" targetRef="LogTask1" />
+    <bpmn:sequenceFlow id="Flow_06pwuhr" sourceRef="LogTask1" targetRef="CreateCustomerAccountTask" />
+    <bpmn:sequenceFlow id="Flow_0f59zew" sourceRef="LogTask2" targetRef="NeukundenanlageEndEvent" />
+    <bpmn:sequenceFlow id="Flow_04eh7cj" sourceRef="CreateCustomerAccountTask" targetRef="LogTask2" />
+    <bpmn:userTask id="CreateCustomerAccountTask" name="Neuen Kunden anlegen">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="kundenId">&lt;kundenId&gt;</camunda:inputParameter>
+          <camunda:outputParameter name="kundenId">${kundenId}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_06pwuhr</bpmn:incoming>
+      <bpmn:outgoing>Flow_04eh7cj</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sendTask id="LogTask1" name="Log&#10;&#34;Kunde wird angelegt&#34;" camunda:delegateExpression="${logMessageHandler}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="message">Kunde wird angelegt</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1v0oedg</bpmn:incoming>
+      <bpmn:outgoing>Flow_06pwuhr</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sendTask id="LogTask2" name="Log&#10;&#34;Kunde wurde angelegt&#34;" camunda:asyncBefore="true" camunda:delegateExpression="${logMessageHandler}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="message">Kunde wurde angelegt mit Id: ${kundenId}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_04eh7cj</bpmn:incoming>
+      <bpmn:outgoing>Flow_0f59zew</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:endEvent id="NeukundenanlageEndEvent">
+      <bpmn:incoming>Flow_0f59zew</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmn:message id="Message_1rbs50d" name="KundeAngelegtMessage" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="CLMdirectNeukundenanlageProzess">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="NeukundenanlageStartEvent">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="193" y="142" width="8" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ixnsvl_di" bpmnElement="CreateCustomerAccountTask">
+        <dc:Bounds x="430" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0t8o4ay_di" bpmnElement="LogTask1">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_15enekr_di" bpmnElement="LogTask2">
+        <dc:Bounds x="590" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0jry8cw_di" bpmnElement="NeukundenanlageEndEvent">
+        <dc:Bounds x="752" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1v0oedg_di" bpmnElement="Flow_1v0oedg">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06pwuhr_di" bpmnElement="Flow_06pwuhr">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="430" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0f59zew_di" bpmnElement="Flow_0f59zew">
+        <di:waypoint x="690" y="117" />
+        <di:waypoint x="752" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_04eh7cj_di" bpmnElement="Flow_04eh7cj">
+        <di:waypoint x="530" y="117" />
+        <di:waypoint x="590" y="117" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
