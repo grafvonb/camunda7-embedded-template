@@ -14,6 +14,7 @@
         <bpmn:extensionElements>
           <camunda:in businessKey="#{execution.processBusinessKey}" />
           <camunda:in source="payload" target="payload" />
+          <camunda:in sourceExpression="${payload.kundenPayload.kundenName}" target="kundenName" />
         </bpmn:extensionElements>
         <bpmn:incoming>NeukundenanlageFlow</bpmn:incoming>
         <bpmn:outgoing>Flow_0jbjar3</bpmn:outgoing>
@@ -29,6 +30,7 @@
           <camunda:in businessKey="#{execution.processBusinessKey}" />
           <camunda:in source="kontoPayload" target="kontoPayload" />
           <camunda:in sourceExpression="${kontoPayload.kontoName}" target="kontoName" />
+          <camunda:in sourceExpression="${debugSkipCLMK}" target="debugSkipCLMK" />
         </bpmn:extensionElements>
         <bpmn:incoming>KontoanlageFlow</bpmn:incoming>
         <bpmn:outgoing>Flow_0j5oumh</bpmn:outgoing>
@@ -46,6 +48,7 @@
             <camunda:in businessKey="#{execution.processBusinessKey}" />
             <camunda:in source="kontoName" target="kontoName" />
             <camunda:in source="kontoPayload" target="kontoPayload" />
+            <camunda:in sourceExpression="${debugSkipCLMK}" target="debugSkipCLMK" />
           </bpmn:extensionElements>
           <bpmn:incoming>Flow_073peci</bpmn:incoming>
           <bpmn:outgoing>Flow_19zcnos</bpmn:outgoing>
@@ -104,7 +107,7 @@
         <dc:Bounds x="952" y="322" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0q2hljm_di" bpmnElement="Activity_0q2hljm" isExpanded="true">
-        <dc:Bounds x="260" y="80" width="620" height="780" />
+        <dc:Bounds x="260" y="80" width="620" height="620" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_0ceqr7a_di" bpmnElement="Gateway_1l25iya">
         <dc:Bounds x="405" y="245" width="50" height="50" />

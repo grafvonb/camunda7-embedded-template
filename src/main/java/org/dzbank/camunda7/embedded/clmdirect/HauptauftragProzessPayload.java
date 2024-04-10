@@ -11,6 +11,8 @@ public class HauptauftragProzessPayload implements Serializable {
     private Collection<KontoanlageProzessPayload> kontoPayloads;
     private Collection<UVZAnlageProzessPayload> uvzPayloads;
 
+    private boolean debugSkipCLMK = true;
+
     public HauptauftragProzessPayload() {
         kontoPayloads = new ArrayList<>();
         uvzPayloads = new ArrayList<>();
@@ -38,5 +40,13 @@ public class HauptauftragProzessPayload implements Serializable {
 
     public void setUvzPayloads(Collection<UVZAnlageProzessPayload> uvzPayloads) {
         this.uvzPayloads = uvzPayloads;
+    }
+
+    public boolean getDebugSkipCLMK() {
+        return debugSkipCLMK;
+    }
+
+    public void setDebugSkipCLMK(boolean debugSkipCLMK) {
+        this.debugSkipCLMK = debugSkipCLMK;
     }
 }

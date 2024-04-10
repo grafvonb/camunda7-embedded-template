@@ -8,7 +8,7 @@
     <bpmn:sequenceFlow id="Flow_06pwuhr" sourceRef="LogTask1" targetRef="NeuenKundenAnlegenTask" />
     <bpmn:sequenceFlow id="Flow_0f59zew" sourceRef="LogTask2" targetRef="KundeAngelegtEndSignal" />
     <bpmn:sequenceFlow id="Flow_04eh7cj" sourceRef="NeuenKundenAnlegenTask" targetRef="LogTask2" />
-    <bpmn:userTask id="NeuenKundenAnlegenTask" name="Neuen Kunden anlegen">
+    <bpmn:userTask id="NeuenKundenAnlegenTask" name="Kunden anlegen&#10;${kundenName}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="kundenId">&lt;kundenId&gt;</camunda:inputParameter>

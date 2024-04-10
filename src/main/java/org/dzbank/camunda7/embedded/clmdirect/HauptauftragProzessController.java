@@ -32,6 +32,7 @@ public class HauptauftragProzessController {
 
         Map<String, Object> variables = new HashMap<>();
         variables.put(HauptauftragConsts.VARIABLE_NAME_PAYLOAD, payload);
+        variables.put(HauptauftragConsts.VARIABLE_NAME_DEBUGSKIPCLMK, payload.getDebugSkipCLMK());
 
         String processInstanceId = runtimeService
                 .startProcessInstanceByKey(HAUPTAUFTRAG_PROZESS_KEY, businessKey, variables)
@@ -48,6 +49,7 @@ public class HauptauftragProzessController {
         Map<String, Object> variables = new HashMap<>();
         variables.put(HauptauftragConsts.VARIABLE_NAME_KONTO_PAYLOAD, kontoPayload);
         variables.put(HauptauftragConsts.VARIABLE_NAME_KONTO_NAME, kontoPayload.getKontoName());
+        variables.put(HauptauftragConsts.VARIABLE_NAME_DEBUGSKIPCLMK, true);
 
         runtimeService
                 .createMessageCorrelation(HauptauftragConsts.MESSAGE_NAME_EXTRA_KONTO_ANGELEGEN)
