@@ -1,0 +1,8 @@
+### Extras
+@businessKey = 077acb84-e2a4-44b7-b3ce-1943d34aab9c
+POST http://localhost:8099/clmdirect/hauptauftrag/kontoanlage/{{businessKey}}
+Content-Type: application/json
+
+{
+  "kontoName": "extraKonto1"
+}

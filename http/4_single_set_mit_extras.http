@@ -1,0 +1,21 @@
+### Single mit extra Aufgaben
+POST http://localhost:8099/clmdirect/hauptauftrag/start
+Content-Type: application/json
+
+{
+  "kundenPayload": {
+    "kundenName": "Kunde3"
+  },
+  "kontoPayloads": [
+    {
+      "kontoName": "konto1"
+    }
+  ],
+  "uvzPayloads": [
+    {
+      "uvzName": "uvz1",
+      "kontoName": "konto1"
+    }
+  ],
+  "debugSkipCLMK": false
+}
