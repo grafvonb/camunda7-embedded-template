@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0daix0m" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.21.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.20.0">
-  <bpmn:process id="CLMdirectKontoanlageProzess" name="CLM.direct Kontoanlage" isExecutable="true" camunda:historyTimeToLive="10">
+  <bpmn:process id="CLMdirectUVZAnlageProzess" name="CLM.direct UVZAnlage" isExecutable="true" camunda:historyTimeToLive="10">
     <bpmn:startEvent id="NeukundenanlageStartEvent">
       <bpmn:outgoing>Flow_1v0oedg</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="Flow_1v0oedg" sourceRef="NeukundenanlageStartEvent" targetRef="LogTask1" />
-    <bpmn:sequenceFlow id="Flow_06pwuhr" sourceRef="LogTask1" targetRef="KundeAngelegtCatchSignal" />
-    <bpmn:sequenceFlow id="Flow_0f59zew" sourceRef="LogTask2" targetRef="KontoAngelegtEndEvent" />
-    <bpmn:sequenceFlow id="Flow_04eh7cj" sourceRef="CreateCustomerAccountTask" targetRef="LogTask2" />
-    <bpmn:userTask id="CreateCustomerAccountTask" name="Neues Konto anlegen">
+    <bpmn:sequenceFlow id="Flow_06pwuhr" sourceRef="LogTask1" targetRef="WartenAufKontoAnlageCatchSignal" />
+    <bpmn:sequenceFlow id="Flow_0f59zew" sourceRef="LogTask2" targetRef="NeukundenanlageEndEvent" />
+    <bpmn:sequenceFlow id="Flow_04eh7cj" sourceRef="NeuesUVZAnlegenTask" targetRef="LogTask2" />
+    <bpmn:userTask id="NeuesUVZAnlegenTask" name="Neues UVZ anlegen">
       <bpmn:extensionElements>
         <camunda:inputOutput>
-          <camunda:inputParameter name="kontoId">&lt;kontoId&gt;</camunda:inputParameter>
-          <camunda:outputParameter name="kontoId">${kontoId}</camunda:outputParameter>
+          <camunda:inputParameter name="uvzId">&lt;uvzId&gt;</camunda:inputParameter>
+          <camunda:outputParameter name="uvzId">${uvzId}</camunda:outputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0a95559</bpmn:incoming>
       <bpmn:outgoing>Flow_04eh7cj</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:sendTask id="LogTask1" name="Log&#10;&#34;Konto wird angelegt&#34;" camunda:delegateExpression="${logMessageHandler}">
+    <bpmn:sendTask id="LogTask1" name="Log&#10;&#34;UVZ wird angelegt&#34;" camunda:delegateExpression="${logMessageHandler}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
-          <camunda:inputParameter name="message">Konto wird angelegt</camunda:inputParameter>
+          <camunda:inputParameter name="message">UVZ wird angelegt</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1v0oedg</bpmn:incoming>
@@ -30,35 +30,36 @@
     <bpmn:sendTask id="LogTask2" name="Log&#10;&#34;Konto wurde angelegt&#34;" camunda:asyncBefore="true" camunda:delegateExpression="${logMessageHandler}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
-          <camunda:inputParameter name="message">Konto wurde angelegt mit Id: ${kontoId}</camunda:inputParameter>
+          <camunda:inputParameter name="message">UVZ wurde angelegt mit Id: ${uvzId}</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_04eh7cj</bpmn:incoming>
       <bpmn:outgoing>Flow_0f59zew</bpmn:outgoing>
     </bpmn:sendTask>
-    <bpmn:sequenceFlow id="Flow_0a95559" sourceRef="KundeAngelegtCatchSignal" targetRef="CreateCustomerAccountTask" />
-    <bpmn:intermediateCatchEvent id="KundeAngelegtCatchSignal" name="Warten&#10;auf GP-Anlage">
+    <bpmn:sequenceFlow id="Flow_0a95559" sourceRef="WartenAufKontoAnlageCatchSignal" targetRef="NeuesUVZAnlegenTask" />
+    <bpmn:intermediateCatchEvent id="WartenAufKontoAnlageCatchSignal" name="Warten&#10;auf Konto-Anlage">
       <bpmn:incoming>Flow_06pwuhr</bpmn:incoming>
       <bpmn:outgoing>Flow_0a95559</bpmn:outgoing>
       <bpmn:signalEventDefinition id="SignalEventDefinition_1urt415" signalRef="Signal_0ntthap" />
     </bpmn:intermediateCatchEvent>
-    <bpmn:endEvent id="KontoAngelegtEndEvent" name="Konto&#10;angelegt">
+    <bpmn:endEvent id="NeukundenanlageEndEvent">
       <bpmn:incoming>Flow_0f59zew</bpmn:incoming>
-      <bpmn:signalEventDefinition id="SignalEventDefinition_0xdpyag" signalRef="Signal_0gsljc0" />
     </bpmn:endEvent>
   </bpmn:process>
   <bpmn:message id="Message_28nt7os" name="KundeAngelegtMessage" />
-  <bpmn:signal id="Signal_0ntthap" name="KundeAngelegtSignal-${execution.processBusinessKey}" />
-  <bpmn:signal id="Signal_0gsljc0" name="KontoAngelegtSignal-${execution.processBusinessKey}-${kontoPayload.kontoName}" />
+  <bpmn:signal id="Signal_0ntthap" name="KontoAngelegtSignal-${execution.processBusinessKey}-${uvzPayload.kontoName}" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="CLMdirectKontoanlageProzess">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="CLMdirectUVZAnlageProzess">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="NeukundenanlageStartEvent">
         <dc:Bounds x="179" y="99" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="193" y="142" width="8" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1ixnsvl_di" bpmnElement="CreateCustomerAccountTask">
+      <bpmndi:BPMNShape id="Event_1aylrkz_di" bpmnElement="NeukundenanlageEndEvent">
+        <dc:Bounds x="802" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ixnsvl_di" bpmnElement="NeuesUVZAnlegenTask">
         <dc:Bounds x="480" y="77" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
@@ -70,16 +71,10 @@
         <dc:Bounds x="640" y="77" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_143ap54_di" bpmnElement="KundeAngelegtCatchSignal">
+      <bpmndi:BPMNShape id="Event_143ap54_di" bpmnElement="WartenAufKontoAnlageCatchSignal">
         <dc:Bounds x="402" y="99" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="389" y="142" width="73" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1vdsbo4_di" bpmnElement="KontoAngelegtEndEvent">
-        <dc:Bounds x="802" y="99" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="799" y="142" width="43" height="27" />
+          <dc:Bounds x="386" y="142" width="86" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1v0oedg_di" bpmnElement="Flow_1v0oedg">

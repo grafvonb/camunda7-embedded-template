@@ -9,9 +9,11 @@ public class HauptauftragProzessPayload implements Serializable {
     private NeukundenanlageProzessPayload kundenPayload;
 
     private Collection<KontoanlageProzessPayload> kontoPayloads;
+    private Collection<UVZAnlageProzessPayload> uvzPayloads;
 
     public HauptauftragProzessPayload() {
         kontoPayloads = new ArrayList<>();
+        uvzPayloads = new ArrayList<>();
     }
 
     public NeukundenanlageProzessPayload getKundenPayload() {
@@ -28,5 +30,13 @@ public class HauptauftragProzessPayload implements Serializable {
 
     public void setKontoPayloads(ArrayList<KontoanlageProzessPayload> kontoPayloads) {
         this.kontoPayloads = kontoPayloads;
+    }
+
+    public Collection<UVZAnlageProzessPayload> getUvzPayloads() {
+        return uvzPayloads;
+    }
+
+    public void setUvzPayloads(Collection<UVZAnlageProzessPayload> uvzPayloads) {
+        this.uvzPayloads = uvzPayloads;
     }
 }
