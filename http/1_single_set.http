@@ -19,3 +19,7 @@ Content-Type: application/json
     }
   ]
 }
+
+### Single V2
+POST http://localhost:8099/clmdirect/hauptauftrag/startV2
+Content-Type: application/json

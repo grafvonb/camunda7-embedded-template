@@ -9,6 +9,16 @@ public interface HauptauftragConsts {
     String VARIABLE_NAME_CLMK_AUFGABEN = "clmkAufgaben";
     String VARIABLE_NAME_DEBUGSKIPCLMK = "debugSkipCLMK";
 
+    String VARIABLE_NAME_BUSINESS_KEY = "businessKey";
+    String VARIABLE_NAME_KUNDEN_NAME = "kundenName";
+    String VARIABLE_NAME_KUNDEN_PAYLOAD = "kundenPayload";
+    String VARIABLE_NAME_UVZ_NAME = "uvzName";
+    String VARIABLE_NAME_UVZ_PAYLOAD = "uvzPayload";
+
     String MESSAGE_NAME_KUNDE_ANGELEGT = "KundeAngelegtMessage";
+    String MESSAGE_NAME_KUNDEN_ANGELEGEN = "KundenAnlegenMessage";
+    String MESSAGE_NAME_KONTO_ANGELEGEN = "KontoAnlegenMessage";
+    String MESSAGE_NAME_UVZ_ANGELEGEN = "UVZAnlegenMessage";
     String MESSAGE_NAME_EXTRA_KONTO_ANGELEGEN = "ExtraKontoAnlagenMessage";
+    String MESSAGE_NAME_HAUPTAUFTRAG_AUSGEFUERT = "HauptauftragAusgefuertMessage";
 }
