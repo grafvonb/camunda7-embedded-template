@@ -21,6 +21,7 @@ public class HauptauftragProzessController {
 
     private static final String HAUPTAUFTRAG_PROZESS_KEY = "CLMdirectHauptauftrag";
     private static final String HAUPTAUFTRAG_PROZESS_KEY_V2 = "CLMdirectHauptauftragV2";
+    private static final String NEUKUNDENANLAGE_PROZESS_KEY = "CLMdirectNeukundenanlageProzess";
 
     private final RuntimeService runtimeService;
 
@@ -94,13 +95,26 @@ public class HauptauftragProzessController {
     @PostMapping("/hauptauftrag/kundenanlage/{businessKey}")
     public Mono<String> addKundenanlage(@PathVariable("businessKey") String businessKey, @RequestBody NeukundenanlageProzessPayload kundenPayload) {
 
+        var subprocessId = UUID.randomUUID().toString();
+
         Map<String, Object> variables = new HashMap<>();
+        variables.put(HauptauftragConsts.VARIABLE_SUBPROCESS_ID, subprocessId);
         variables.put(HauptauftragConsts.VARIABLE_NAME_KUNDEN_PAYLOAD, kundenPayload);
         variables.put(HauptauftragConsts.VARIABLE_NAME_KUNDEN_NAME, kundenPayload.getKundenName());
 
         sendMessage(HauptauftragConsts.MESSAGE_NAME_KUNDEN_ANGELEGEN, businessKey, variables);
 
-        return Mono.just("Message sent for process with business key: " + businessKey);
+        // this assumes that the engine works synchronously, which will not function in Camunda 8
+        ProcessInstance processInstance = runtimeService
+                .createProcessInstanceQuery()
+                .processDefinitionKey(NEUKUNDENANLAGE_PROZESS_KEY)
+                .processInstanceBusinessKey(businessKey)
+                .variableValueEquals(HauptauftragConsts.VARIABLE_SUBPROCESS_ID, subprocessId)
+                .active()
+                .singleResult();
+
+        logger.debug("Message sent for process with business key: %s, instance id: %s".formatted(businessKey, processInstance.getProcessInstanceId()));
+        return Mono.just("Message sent for process with business key: %s, instance id: %s".formatted(businessKey, processInstance.getProcessInstanceId()));
     }
 
     @PostMapping("/hauptauftrag/kontoanlage/{businessKey}")

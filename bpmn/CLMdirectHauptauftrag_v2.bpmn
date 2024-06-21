@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_06ngojo" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.22.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.20.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_06ngojo" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.23.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.20.0">
   <bpmn:process id="CLMdirectHauptauftragV2" name="CLM.direct Hauptauftrag" isExecutable="true" camunda:historyTimeToLive="10">
     <bpmn:subProcess id="Activity_0q2hljm">
       <bpmn:incoming>Flow_13zs4zj</bpmn:incoming>
@@ -52,11 +52,12 @@
         </bpmn:startEvent>
       </bpmn:subProcess>
       <bpmn:subProcess id="Activity_04xumu4" triggeredByEvent="true">
-        <bpmn:callActivity id="Neukundenanlageprozess" name="Neukunden-anlage ausführen" calledElement="CLMdirectNeukundenanlageProzess">
+        <bpmn:callActivity id="Neukundenanlageprozess" name="Neukunden-anlage ausführen 2" calledElement="CLMdirectNeukundenanlageProzess">
           <bpmn:extensionElements>
             <camunda:in businessKey="#{execution.processBusinessKey}" />
             <camunda:in source="kundenPayload" target="payload" />
             <camunda:in source="kundenName" target="kundenName" />
+            <camunda:in source="subprocessId" target="subprocessId" />
           </bpmn:extensionElements>
           <bpmn:incoming>Flow_0ockfl7</bpmn:incoming>
           <bpmn:outgoing>Flow_1o2gfsp</bpmn:outgoing>
@@ -170,6 +171,7 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_097egai_di" bpmnElement="Neukundenanlageprozess">
         <dc:Bounds x="500" y="320" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0fekt82_di" bpmnElement="Event_0fekt82">
         <dc:Bounds x="652" y="342" width="36" height="36" />

@@ -1,6 +1,6 @@
 ### Extras
 ### Kundenanlage
-@businessKey = 3e3d74b6-d8d0-4a2f-a0fe-41a69a21a250
+@businessKey = 49a73523-9195-4168-81d2-c84f0b1eeb55
 
 ### Kontoanlage
 POST http://localhost:8099/clmdirect/hauptauftrag/kontoanlage/{{businessKey}}

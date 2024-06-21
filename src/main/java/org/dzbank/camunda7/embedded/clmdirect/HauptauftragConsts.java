@@ -14,6 +14,7 @@ public interface HauptauftragConsts {
     String VARIABLE_NAME_KUNDEN_PAYLOAD = "kundenPayload";
     String VARIABLE_NAME_UVZ_NAME = "uvzName";
     String VARIABLE_NAME_UVZ_PAYLOAD = "uvzPayload";
+    String VARIABLE_SUBPROCESS_ID = "subprocessId";
 
     String MESSAGE_NAME_KUNDE_ANGELEGT = "KundeAngelegtMessage";
     String MESSAGE_NAME_KUNDEN_ANGELEGEN = "KundenAnlegenMessage";
